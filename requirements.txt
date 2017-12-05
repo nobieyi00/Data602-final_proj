@@ -1,0 +1,11 @@
+requests
+pandas
+datetime
+bs4
+sqlalchemy
+numpy
+python-dateutil
+flask
+matplotlib
+flask_sqlalchemy
+lxml
