@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CUNY DATA 602 Final Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row container-fluid">
+	<form class="navbar-form navbar" method="post">
+	<div class="row navbar navbar-default">
+		<div class="col-sm-12">
+			<div class="navbar-header navbar-left">
+				<a class="navbar-brand" href="#">CUNY&nbsp;DATA-602&nbsp;SOCCER&nbsp;GAME&nbsp;OUTCOME&nbsp;PREDICTION</a>
+			</div>
+			<div class="navbar-header navbar-right">
+					<ul class="nav nav-pills">
+						<li {{ home }}><a href="{{ url_for('home') }}">Home</a></li>
+						<li {{ team }}><a href="{{ url_for('home') }}">Team</a></li>
+						<li {{ game }}><a href="{{ url_for('home') }}">Games</a></li>
+					</ul>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+    		{% block content %}
+    		{% endblock %}
+	</div>
+</div>
+</body>
+</html>

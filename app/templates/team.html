@@ -1,0 +1,184 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div id="scoped-content">
+			<style>
+				.table-wrapper-2 {
+				display: block;
+				max-height: 690px;
+				overflow-y: auto;
+				-ms-overflow-style: -ms-autohiding-scrollbar;
+				}
+			</style>
+			<div class="col-sm-3">
+				<div class="row" align="center">
+					<h4><small>TEAM INFRORMATION - {{ teamName }} - SEASON - {{ season }}</small></h4>
+					<div class="table-wrapper-2">
+
+							<table class="table table-striped table-bordered table-sm">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Birth Day</th>
+										<th>Height(cm)</th>
+										<th>Weight(lbs)</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for key,team in teamDetails.iterrows() -%}
+											<tr>
+												<td><a data-toggle="tab" href="#P{{ team['playerID'] }}">{{ team['Name'] }}</a></td>
+												<td>{{ team['Birth Day'] }}</td>
+												<td>{{ team['Height'] }}</td>
+												<td>{{ team['Weight'] }}</td>
+											</tr>
+									{%- endfor %}
+								</tbody>
+							</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-5" align="center">
+				<div class="row" align="center">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#ggoals">Goals</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Shots
+							<span class="caret"></span></a>
+							<ul class="nav dropdown-menu">
+								<li><a href="#gshoton" data-toggle="tab">Shot On</a></li>
+								<li><a href="#gshotoff" data-toggle="tab">Shot Off</a></li>
+							</ul>
+						</li>
+						<li><a data-toggle="tab" href="#gfoulcommit">Fouls</a></li>
+						<li><a data-toggle="tab" href="#gwin">Outcome</a></li>
+						<li><a data-toggle="tab" href="#gcorr">Correlation</a></li>						
+					</ul>
+					<div class="tab-content">
+						<div id="ggoals" class="tab-pane fade in active">
+							<img id=img1 src="{{ url_for('graph_display3',league=league, season=season, team=teamid) }}"/>
+						</div>
+						<div id="gshoton" class="tab-pane fade">
+							<img id=img2 src="{{ url_for('graph_display4',league=league, season=season, team=teamid) }}"/>
+						</div>
+						<div id="gshotoff" class="tab-pane fade">
+							<img id=img3 src="{{ url_for('graph_display5',league=league, season=season, team=teamid) }}"/>
+						</div>
+						<div id="gfoulcommit" class="tab-pane fade">
+							<img id=img4 src="{{ url_for('graph_display6',league=league, season=season, team=teamid) }}"/>
+						</div>
+						<div id="gwin" class="tab-pane fade">
+							<img id=img5 src="{{ url_for('graph_display7',league=league, season=season, team=teamid) }}"/>
+						</div>
+						<div id="gcorr" class="tab-pane fade">
+							<img id=img6 src="{{ url_for('graph_display8',league=league, season=season, team=teamid) }}"/>
+						</div>
+					</div>
+				</div>
+				<div class="row" align="center">
+						<h4><small>TEAM RATING</small></h4>
+				<div class="table-condensed">
+				{% if tickerDetails is iterable %}
+					{% for idx, row in teamStats1.iterrows() %}
+					{% if loop.index is divisibleby 2 %}
+					<div class="row" align="left">
+        					<div class="col-sm-2"></div>
+						<div class="col-sm-5">{{ row['Attribute'] }}</div>
+						<div class="col-sm-5">{{ row['Rating'] }}</div>
+					</div>
+				{% else %}
+					<div class="row" align="left" style="background-color:#f2f2f2;">
+                        <div class="col-sm-2"></div>
+						<div class="col-sm-5">{{ row['Attribute'] }}</div>
+						<div class="col-sm-5">{{ row['Rating'] }}</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+					{% endif %}
+				</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div id="scoped-content">
+				<style>
+					.table-wrapper-3 {
+						display: block;
+						max-height: 390px;
+						overflow-y: auto;
+						-ms-overflow-style: -ms-autohiding-scrollbar;
+					}
+				</style>
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#games">Games</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Shots
+						<span class="caret"></span></a>
+						<ul class="nav dropdown-menu">
+							<li><a href="#shoton" data-toggle="tab">Shot On</a></li>
+							<li><a href="#shotoff" data-toggle="tab">Shot Off</a></li>
+						</ul>
+					</li>
+					<li><a data-toggle="tab" href="#foulcommit">Fouls</a></li>
+					<li><a data-toggle="tab" href="#lcorr">Correlation</a></li>					
+				</ul>
+					<div class="tab-content">
+						<div id="games" class="tab-pane fade in active">
+							<h4><small>Games Played</small></h4>
+							<div class="col-sm-12 center-block">
+								<div class="table-wrapper-3 pull-left">
+									{% for table in gameoutcome %}
+									{{ table|safe }}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<div id="shoton" class="tab-pane fade pull-left">
+							<h4><small>Shots On Goal</small></h4>
+							<div class="col-sm-12 center-block">
+								<div class="table-wrapper-3">
+									{% for table in shoton %}
+									{{ table|safe }}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<div id="shotoff" class="tab-pane fade">
+							<h4><small>Shots Off Goal</small></h4>
+							<div class="col-sm-12 center-block">
+								<div class="table-wrapper-3">
+									{% for table in shotoff %}
+									{{ table|safe }}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						
+						<div id="foulcommit" class="tab-pane fade">
+							<h4><small>Shots Off Goal</small></h4>
+							<div class="col-sm-12 center-block">
+								<div class="table-wrapper-3">
+									{% for table in foulcommit %}
+									{{ table|safe }}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<div id="lcorr" class="tab-pane fade">
+							<h4><small>Team Attributes Vs. Performance</small></h4>
+							<div class="col-sm-12 center-block">
+								<div class="table-wrapper-3">
+									{% for table in corrDf %}
+									{{ table|safe }}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-2 sidebar1">
+            <div class="left-navigation">
+                <ul class="nav nav-pills nav-stacked">
+                    <h4><small>LEAGUES</small></h4>
+					{% for key,leauge in leaugeTable.iterrows() %}
+                        {% if leauge['LeagueId'] == league -%}
+                            <li class="active data-toggle=pill" "{{ leauge['LeagueId'] }}"><a href="{{ url_for('home', league=leauge['LeagueId']) }}">{{ leauge['League'] }}</a></li>
+                        {% else %}
+                            <li "{{ leauge['LeagueId'] }}"><a href="{{ url_for('home', league=leauge['LeagueId']) }}">{{ leauge['League'] }}</a></li>
+                        {%- endif %}
+					{% endfor %}
+                </ul>
+			</div>
+        </div>
+		<div class="col-sm-10">
+			<div class="tab-content">
+				<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#details">Details</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Season
+						<span class="caret"></span></a>
+						<ul class="nav dropdown-menu">
+						{% for key,season in leaugeSeasons.iterrows() -%}
+							<li><a href="#{{ season['LeagueId'] }}{{ season['SeasonId'] }}" data-toggle="tab">{{ season['Season'] }}</a></li>
+						{%- endfor %}
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div id="details" class="tab-pane fade in active">
+					<table class="table table-striped table-bordered table-condensed">
+						<tbody>
+							{% for key,leaugeDetail in leaugeDetails.iterrows() -%}
+							<tr>
+								<td class="col-xs-1">Country</td><td class="col-xs-3">{{ leaugeDetail['Country']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Name</td><td>{{ leaugeDetail['Name']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Founded</td><td>{{ leaugeDetail['Founded']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Status</td><td>{{ leaugeDetail['Status']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Confederation</td><td>{{ leaugeDetail['Confederation']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Number of Teams</td><td>{{ leaugeDetail['Number of Teams']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Relegation To</td><td>{{ leaugeDetail['Relegation To']|safe }}</td>
+							</tr>
+							<tr>                                            
+								<td>Current Champions</td><td>{{ leaugeDetail['Current Champions']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Most Championships</td><td>{{ leaugeDetail['Most Championships']|safe }}</td>
+							</tr>
+							<tr>                                            
+								<td>Domestic Cup</td><td>{{ leaugeDetail['Domestic Cup']|safe }}</td>
+							</tr>
+							<tr>
+								<td>International Cup</td><td>{{ leaugeDetail['International Cup']|safe }}</td>
+							</tr>
+							<tr>
+								<td>TV Partners</td><td>{{ leaugeDetail['TV Partners']|safe }}</td>
+							</tr>
+							<tr>
+								<td>Infomation Source</td><td>{{ leaugeDetail['Infomation Source']|safe }}</td>
+							</tr>
+							{%- endfor %}
+						</tbody>
+					</table>
+				</div>
+				{% for key,season in leaugeSeasons.iterrows() -%}
+				<div id="{{ season['LeagueId'] }}{{ season['SeasonId'] }}" class="tab-pane fade">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Season</th>
+								<th>Team Id</th>
+								<th>Team Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for key,team in leaugeTeams.iterrows() -%}
+								{% if season['Season'] == team['Season'] -%}
+									<tr>
+										<td>{{ team['Season'] }}</td>
+										<td><a href="{{ url_for('team', league=season['LeagueId'], season=season['SeasonId'], team=team['TeamApiId']) }}">{{ team['Team Id'] }}</a></td>
+										<td>{{ team['Team Name'] }}</td>
+									</tr>
+									{%- endif %}
+							{%- endfor %}
+						</tbody>
+					</table>
+				</div>
+				{%- endfor %}
+			</div>
+		</div>
+    </div>
+</div>
+{% endblock %}
